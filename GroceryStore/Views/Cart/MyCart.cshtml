@@ -1,0 +1,114 @@
+﻿@model List<GroceryStore.ViewModels.tblCartViewModel>
+<div class="u-s-p-b-60">
+    <div class="section__intro u-s-m-b-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section__text-wrap">
+                        <h1 class="section__heading u-c-secondary">SHOPPING CART</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section__content">
+        <div class="container">
+            @if (Model.Count != 0)
+            {
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
+        <div class="table-responsive">
+            <table class="table-p">
+                <tbody>
+                    @foreach (var x in Model)
+                    {
+    <form method="post" asp-action="DeleteProductFromCart" asp-controller="Cart" asp-route-id="@x.ProductId" asp-route-name="myCart">
+    <tr>
+        <td>
+            <div class="table-p__box">
+                <div class="table-p__img-wrap">
+                    @if (x.productDetails.ProductPicture == "" || x.productDetails.ProductPicture == null)
+                    {
+<img class="u-img-fluid" id="blah" src="~/images/logo/no-image-icon-23485.png" alt="your image" />}
+else
+{
+<img class="u-img-fluid" src="~/images/product/@x.productDetails.ProductPicture" alt="">}
+                </div>
+                <div class="table-p__info">
+                    <span class="table-p__name">
+                        <a href="product-detail.html">@x.productDetails.ProductName</a>
+                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            @if (Context.Request.Cookies["IsPrimeMember"].ToUpper() == "TRUE")
+            {
+                if (x.productDetails.Discount != 0)
+                {
+<span class="pd-detail__discount">₹@x.TotalPrice (Prime Member 10% OFF)</span><del class="pd-detail__del">₹@Math.Round((double)(x.productDetails.DiscountedPrice * x.NoOfProducts), 2)</del> }
+else
+{
+<span class="pd-detail__discount">₹@x.TotalPrice (Prime Member 10% OFF)</span><del class="pd-detail__del">₹@Math.Round((double)(x.productDetails.ProductPrice * x.NoOfProducts), 2)</del>}
+}
+else
+{
+<span class="table-p__price">₹@x.TotalPrice</span>}
+
+
+        </td>
+        <td>
+            <div class="table-p__input-counter-wrap">
+                <div class="input-counter">
+                    <button asp-action="DeleteCart" asp-controller="Cart" asp-route-id="@x.CartId" asp-route-name="MYCART" class="input-counter__minus fas fa-minus" style="border: none; border-radius: 35px;"></button>
+                    <input class="input-counter__text input-counter--text-primary-style" type="text" value="@x.NoOfProducts" data-min="1" data-max="5">
+                    <button asp-action="AddToCart" class="input-counter__plus fas fa-plus" asp-controller="Cart" asp-route-id="@x.productDetails.ProductId" asp-route-num="1" asp-route-isPrime="@Context.Request.Cookies["IsPrimeMember"]" style="border: none; border-radius: 35px;"></button>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="table-p__del-wrap">
+                <button type="submit" class="far fa-trash-alt table-p__delete-link"></button>
+            </div>
+        </td>
+    </tr>
+    </form>}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
+        <span style="float:left">
+            <a class="dash__custom-link btn--e-brand-b-2" href="@Url.Action("Products", "Home")">
+                ADD MORE PRODUCTS
+            </a>
+        </span>
+
+        <span style="float:right">
+            <a class="dash__custom-link btn--e-brand-b-2" href="@Url.Action("CheckOut", "Cart")">
+                PROCEED TO CHECKOUT
+            </a>
+        </span>
+
+    </div>
+</div> }
+else
+{
+<div><h2>No product to display</h2></div>}
+        </div>
+    </div>
+</div>
+<script>
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+<script src="~/js/vendor.js"></script>
+<script src="~/js/jquery.shopnav.js"></script>
+<script src="~/js/app.js"></script>
+
+

@@ -1,0 +1,328 @@
+﻿@model GroceryStore.ViewModels.tblCheckOutViewModel
+<div id="app">
+    <div class="u-s-p-b-60">
+        <div class="section__content">
+            <div class="container">
+                <div class="checkout-f">
+                    @if (Model.tblAddress != null)
+                    {
+                <form class="checkout-f__delivery" method="post" asp-route-AddressId="@Model.tblAddress.AddressId" asp-route-ShippingCharges="@Model.ShippingCharges" asp-route-Tax="@Model.Tax"
+                      asp-route-Subtotal="@Model.Subtotal">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
+                            <div class="u-s-m-b-30">
+                                <div class="gl-inline">
+                                    <div class="u-s-m-b-15">
+                                        <label class="gl-label" for="billing-fname">FIRST NAME *</label>
+                                        <input class="input-text input-text--primary-style" asp-for="@Model.FirstName" type="text" placeholder="First Name" disabled>
+                                    </div>
+                                    <div class="u-s-m-b-15">
+                                        <label class="gl-label" for="billing-lname">LAST NAME *</label>
+                                        <input class="input-text input-text--primary-style" type="text" placeholder="Last Name" asp-for="@Model.LastName" disabled>
+                                    </div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-email">E-MAIL *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.Email" placeholder="E-mail" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-phone">PHONE *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.Phone" placeholder="Phone" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-street">ADDRESS *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.tblAddress.Address" placeholder="Address" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label">COUNTRY *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.Country" placeholder="Country" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label">STATE/PROVINCE *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.State" placeholder="State" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label">TOWN/CITY *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.City" placeholder="City" disabled>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <label class="gl-label">ZIP/POSTAL CODE *</label>
+                                    <input class="input-text input-text--primary-style" type="text" asp-for="@Model.tblAddress.PinCode" placeholder="Zip/Postal Code" disabled>
+                                </div>
+                                @if (Model.tblAddress != null)
+                                {
+                <div>
+                    <a class="btn btn--e-transparent-brand-b-2" style="padding:10px" href="@Url.Action("AddressBook", "Account")">CHANGE</a>
+                </div> }
+            else
+            {
+                <a class="dash__custom-link btn--e-brand-b-2" href="@Url.Action("AddressBook", "Account")">
+                    <i class="fas fa-plus u-s-m-r-8"></i>
+                    <span>Add New Address</span>
+                </a>}
+
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
+                            <div class="o-summary">
+                                <div class="o-summary__section u-s-m-b-30">
+                                    <div class="o-summary__item-wrap gl-scroll">
+                                        @if (Model.tblCartViewModel != null)
+                                        {
+                        @foreach (var x in Model.tblCartViewModel)
+                        {
+                <div class="o-card">
+                    <div class="o-card__flex">
+                        <div class="o-card__img-wrap">
+                            @if (x.productDetails.ProductPicture == "" || x.productDetails.ProductPicture == null)
+                            {
+                <img class="u-img-fluid" id="blah" src="~/images/logo/no-image-icon-23485.png" alt="your image" />}
+            else
+            {
+                <img class="u-img-fluid" src="~/images/product/@x.productDetails.ProductPicture" alt="">}
+                        </div>
+                        <div class="o-card__info-wrap">
+
+                            <span class="o-card__name">
+
+                                <a href="product-detail.html">@x.productDetails.ProductName</a>
+                            </span>
+
+                            <span class="o-card__quantity">Quantity x @x.NoOfProducts</span>
+                            @if (x.productDetails.Discount != 0)
+                            {
+                <span class="o-card__price">₹@x.productDetails.DiscountedPrice</span> }
+            else
+            {
+                <span class="o-card__price">₹@x.productDetails.DiscountedPrice</span>}
+                        </div>
+                    </div>
+                </div>}}
+                    else
+                    {
+                <div><h3>Cart is empty</h3></div>}
+                                    </div>
+                                </div>
+                                <div class="o-summary__section u-s-m-b-30">
+                                    <div class="o-summary__box">
+                                        <table class="o-summary__table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>SHIPPING</td>
+                                                    <td>₹@Model.ShippingCharges</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>TAX</td>
+                                                    <td>₹@Model.Tax</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>SUBTOTAL</td>
+                                                    <td>₹@Model.Subtotal</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>GRAND TOTAL</td>
+                                                    <td>₹@Math.Round((Model.ShippingCharges + Model.Tax + Model.Subtotal), 2)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="o-summary__section u-s-m-b-30">
+                                    <div class="o-summary__box">
+                                        <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
+                                        <div class="u-s-m-b-10">
+                                            <div class="radio-box">
+                                                <input type="radio" id="cash-on-delivery" checked disabled name="payment">
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label>
+                                                </div>
+                                            </div>
+                                            <span class="gl-text u-s-m-t-6">Pay Upon Cash on delivery.</span>
+                                        </div>
+                                        <div class="u-s-m-b-15">
+                                            <div class="check-box">
+                                                <input type="checkbox" id="condition" checked disabled>
+                                                <div class="check-box__state check-box__state--primary">
+                                                    <label class="check-box__label" for="term-and-condition">I consent to the</label>
+                                                </div>
+                                            </div>
+                                            <a class="gl-link">Terms of Service.</a>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> }
+                            else
+                            {
+                                <form class="checkout-f__delivery" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
+                                            <div class="u-s-m-b-30">
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-15">
+                                                        <label class="gl-label" for="billing-fname">FIRST NAME *</label>
+                                                        <input class="input-text input-text--primary-style" type="text" placeholder="First Name" disabled>
+                                                    </div>
+                                                    <div class="u-s-m-b-15">
+                                                        <label class="gl-label" for="billing-lname">LAST NAME *</label>
+                                                        <input class="input-text input-text--primary-style" type="text" placeholder="Last Name" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label" for="billing-email">E-MAIL *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="E-mail" disabled>
+                                                </div>
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label" for="billing-phone">PHONE *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="Phone" disabled>
+                                                </div>
+
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label" for="billing-street">ADDRESS *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="Address" disabled>
+                                                </div>
+
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label">COUNTRY *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="Country" disabled>
+                                                </div>
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label">STATE/PROVINCE *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="State" disabled>
+                                                </div>
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label">TOWN/CITY *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="City" disabled>
+                                                </div>
+                                                <div class="u-s-m-b-15">
+                                                    <label class="gl-label">ZIP/POSTAL CODE *</label>
+                                                    <input class="input-text input-text--primary-style" type="text" placeholder="Zip/Postal Code" disabled>
+                                                </div>
+                                                @if (Model.tblAddress != null)
+                                                {
+                                <div>
+                                    <a class="btn btn--e-transparent-brand-b-2" style="padding:10px" href="@Url.Action("AddressBook", "Account")">CHANGE</a>
+                                </div> }
+                            else
+                            {
+                <a class="btn btn--e-transparent-brand-b-2" style="padding:10px" href="@Url.Action("AddressBook","Account",new { name="CHECKOUT"})">
+                    Add New Address OR Make existing address as DEFAULT
+                </a>}
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
+                                            <div class="o-summary">
+                                                <div class="o-summary__section u-s-m-b-30">
+                                                    <div class="o-summary__item-wrap gl-scroll">
+                                                        @if (Model.tblCartViewModel != null)
+                                                        {
+                                        @foreach (var x in Model.tblCartViewModel)
+                                        {
+                    <div class="o-card">
+                        <div class="o-card__flex">
+                            <div class="o-card__img-wrap">
+                                @if (x.productDetails.ProductPicture == "" || x.productDetails.ProductPicture == null)
+                                {
+                <img class="u-img-fluid" id="blah" src="~/images/logo/no-image-icon-23485.png" alt="your image" />}
+            else
+            {
+                <img class="u-img-fluid" src="~/images/product/@x.productDetails.ProductPicture" alt="">}
+                            </div>
+                            <div class="o-card__info-wrap">
+
+                                <span class="o-card__name">
+
+                                    <a href="product-detail.html">@x.productDetails.ProductName</a>
+                                </span>
+
+                                <span class="o-card__quantity">Quantity x @x.NoOfProducts</span>
+                                @if (x.productDetails.Discount != 0)
+                                {
+                <span class="o-card__price">₹@x.productDetails.DiscountedPrice</span> }
+            else
+            {
+                <span class="o-card__price">₹@x.productDetails.DiscountedPrice</span>}
+                            </div>
+                        </div>
+                    </div>}}
+                                    else
+                                    {
+                    <div><h3>Cart is empty</h3></div>}
+                                                    </div>
+                                                </div>
+                                                <div class="o-summary__section u-s-m-b-30">
+                                                    <div class="o-summary__box">
+                                                        <table class="o-summary__table">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>SHIPPING</td>
+                                                                    <td>₹@Model.ShippingCharges</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>TAX</td>
+                                                                    <td>₹@Model.Tax</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>SUBTOTAL</td>
+                                                                    <td>₹@Model.Subtotal</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>GRAND TOTAL</td>
+                                                                    <td>₹@Math.Round((Model.ShippingCharges + Model.Tax + Model.Subtotal), 2)</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="o-summary__section u-s-m-b-30">
+                                                    <div class="o-summary__box">
+                                                        <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
+                                                        <div class="u-s-m-b-10">
+
+                                                            <div class="radio-box">
+                                                                <input type="radio" id="cash-on-delivery" checked disabled name="payment">
+                                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                                    <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label>
+                                                                </div>
+                                                            </div>
+                                                            <span class="gl-text u-s-m-t-6">Pay Upon Cash on delivery.</span>
+                                                        </div>
+                                                        <div class="u-s-m-b-15">
+                                                            <div class="check-box">
+                                                                <input type="checkbox" id="condition" checked disabled>
+                                                                <div class="check-box__state check-box__state--primary">
+                                                                    <label class="check-box__label" for="term-and-condition">I consent to the</label>
+                                                                </div>
+                                                            </div>
+                                                            <a class="gl-link">Terms of Service.</a>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

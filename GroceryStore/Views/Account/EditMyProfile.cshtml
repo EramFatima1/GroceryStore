@@ -1,0 +1,63 @@
+﻿@model tblUsers
+<div class="u-s-p-b-60">
+    <div class="section__content">
+        <div class="dash">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12">
+                        @Html.Partial("MyAccountSideMenu.cshtml", Model)
+                    </div>
+                    <div class="col-lg-9 col-md-12">
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
+                            <div class="dash__pad-2">
+                                <h1 class="dash__h1 u-s-m-b-14">Edit Profile</h1>
+                                <span class="dash__text u-s-m-b-30">Looks like you haven't update your profile</span>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form class="dash-edit-p" asp-action="EditMyProfile">
+                                            <div class="gl-inline">
+                                                <div class="u-s-m-b-30">
+                                                    <label class="gl-label" asp-for="FirstName">FIRST NAME <span style="color:red">*</span></label>
+                                                    <input class="input-text input-text--primary-style" type="text" asp-for="FirstName" placeholder="First Name">
+                                                    <span asp-validation-for="FirstName" style="color:red"></span>
+                                                </div>
+                                                <div class="u-s-m-b-30">
+                                                    <label class="gl-label" asp-for="LastName">LAST NAME <span style="color:red">*</span></label>
+                                                    <input class="input-text input-text--primary-style" type="text" asp-for="LastName" placeholder="Last Name">
+                                                    <span asp-validation-for="LastName" style="color:red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="gl-inline">
+                                                <div class="u-s-m-b-30">
+                                                    <label class="gl-label" asp-for="Gender">GENDER</label>
+                                                    <select class="select-box select-box--primary-style u-w-100" asp-for="Gender">
+                                                        <option value="" selected>Select</option>
+                                                        <option value="M">Male</option>
+                                                        <option value="F">Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="u-s-m-b-30">
+                                                    <label class="gl-label" asp-for="Email">E-mail <span style="color:red">*</span></label>
+                                                    <input disabled class="input-text input-text--primary-style" type="text" asp-for="Email" placeholder="E-mail">
+                                                    <span asp-validation-for="Email" style="color:red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="gl-inline">
+                                                <div class="u-s-m-b-30">
+                                                    <label class="gl-label" for="reg-lname">PHONE <span style="color:red">*</span></label>
+                                                    <input class="input-text input-text--primary-style" type="text" asp-for="Phone" placeholder="Last Name">
+                                                    <span asp-validation-for="Phone" style="color:red"></span>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

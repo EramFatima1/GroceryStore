@@ -1,0 +1,38 @@
+﻿@model GroceryStore.ViewModels.tblTrackOrderViewModel
+<div class="u-s-p-b-60">
+    <div class="section__content">
+        <div class="dash">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12">
+                        @Html.Partial("MyAccountSideMenu.cshtml", Model.UserDetails)
+                    </div>
+                    <div class="col-lg-9 col-md-12">
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
+                            <div class="dash__pad-2">
+                                <h1 class="dash__h1 u-s-m-b-14">Track your Order</h1>
+                                <span class="dash__text u-s-m-b-30">To track your order please enter your Order ID in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</span>
+                                <form class="dash-track-order" method="post" asp-action="TrackOrder">
+                                    <div class="gl-inline">
+                                        <div class="u-s-m-b-30">
+                                            <label class="gl-label" for="order-id">Order Number *</label>
+                                            <input class="input-text input-text--primary-style" type="text" asp-for="@Model.OrderNumber" placeholder="Found in your confirmation email">
+                                        </div>
+                                        <div class="u-s-m-b-30">
+                                            <label class="gl-label" for="track-email">Email *</label>
+                                            <input class="input-text input-text--primary-style" type="text" asp-for="@Model.UserDetails.Email" placeholder="Email you used during checkout">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn--e-brand-b-2" type="submit">TRACK</button>
+                                </form>
+                            </div>
+                            @if (Model.OrderStatus != null)
+                            {
+                        <div style="margin-left:20px"><h3>Status: @Model.OrderStatus</h3></div>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

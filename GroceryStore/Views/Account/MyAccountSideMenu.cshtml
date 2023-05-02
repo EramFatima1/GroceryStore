@@ -1,0 +1,30 @@
+﻿@model tblUsers
+<div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+    <div class="dash__pad-1">
+
+        <span class="dash__text u-s-m-b-16">
+            Hello,
+            @(Model.FirstName + " " + Model.LastName)
+        </span>
+        <ul class="dash__f-list">
+            <li>
+                <a class="dash-active" href="@Url.Action("MyAccount","Account")">Manage My Account</a>
+            </li>
+            <li>
+                <a href="@Url.Action("MyProfile","Account")">My Profile</a>
+            </li>
+            <li>
+
+                <a href="@Url.Action("AddressBook","Account")">Address Book</a>
+            </li>
+            <li>
+
+                <a href="@Url.Action("TrackOrder","Account")">Track Order</a>
+            </li>
+            <li>
+
+                <a href="@Url.Action("MyOrder","Account")">My Orders</a>
+            </li>
+        </ul>
+    </div>
+</div>

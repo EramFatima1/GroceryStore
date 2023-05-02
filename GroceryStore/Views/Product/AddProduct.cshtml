@@ -1,0 +1,94 @@
+﻿@model tblProducts
+<div class="u-s-p-b-60">
+    <div class="section__intro u-s-m-b-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section__text-wrap">
+                        <h1 class="section__heading u-c-secondary">ADD A PRODUCT IN YOUR GROCERY STORE</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="section__content">
+            <div class="container">
+                <div class="row row--center">
+                    <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                        <div class="l-f-o">
+                            <div class="l-f-o__pad-box">
+                                <form enctype="multipart/form-data" class="l-f-o__form" method="post">
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label" asp-for="ProductName">PRODUCT NAME <span style="color:red">*</span></label>
+                                        <input type="text" class="input-text input-text--primary-style" asp-for="ProductName" placeholder="Product Name">
+                                        <span asp-validation-for="ProductName" style="color:red"></span>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label" asp-for="ProductPrice">PRODUCT PRICE <span style="color:red">*</span></label>
+                                        <input class="input-text input-text--primary-style" type="text" asp-for="ProductPrice" placeholder="Product Price">
+                                        <span asp-validation-for="ProductPrice" style="color:red"></span>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label" asp-for="Quantity">QUANTITY <span style="color:red">*</span></label>
+                                        <input class="input-text input-text--primary-style" type="number" asp-for="Quantity" min="0" max="50" placeholder="Quantity">
+                                        <span asp-validation-for="Quantity" style="color:red"></span>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label" asp-for="Description">DESCRIPTION <span style="color:red">*</span></label>
+                                        <textarea rows="5" cols="10" class="input-text input-text--primary-style" style=" height: auto" asp-for="Description" placeholder="Description"></textarea>
+                                        <span asp-validation-for="Description" style="color:red"></span>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        <div class="u-s-m-b-15">
+                                            <label class="gl-label" for="reg-lname">Discount %</label>
+                                            <input class="input-text input-text--primary-style" type="number" min="0" max="50" asp-for="Discount" placeholder="Discount">
+                                        </div>
+                                        <div class="u-s-m-b-15">
+                                            <div class="check-box">
+                                                <input type="checkbox" asp-for="ExtraDiscount">
+                                                <div class="check-box__state check-box__state--primary">
+                                                    <label class="check-box__label" asp-for="ExtraDiscount">Extra 10% Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="u-s-m-b-30">
+                                        <label class="gl-label" for="reg-lname">UPLOAD AN IMAGE</label>
+                                        <span style="float:right">
+                                            <input type="file" asp-for="ProductImage" onchange="readURL(this);" accept="image/*" style="border: 0;clip: rect(0 0 0 0);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;">
+                                            <button id="file-upload" class="s-option__link btn--e-brand-shadow" style="border-radius: 0.375rem;cursor: pointer">SELECT</button>
+                                        </span>
+                                        <img id="blah" width="120" height="120" src="~/images/logo/no-image-icon-23485.png" alt="your image" />
+                                    </div>
+                                    <div class="u-s-m-b-15">
+                                        <button class="btn btn--e-transparent-brand-b-2" type="submit">ADD PRODUCT</button>
+                                    </div>
+                                    <a class="gl-link" href="@Url.Action("Index","Home")">Return to Store</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+    function readURL(input) {
+        debugger;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#file-upload').on('click', function (e) {
+        e.preventDefault();
+        $('#ProductImage').trigger('click');
+    });
+</script>

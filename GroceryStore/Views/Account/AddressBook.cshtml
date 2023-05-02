@@ -1,0 +1,96 @@
+﻿@model List<GroceryStore.ViewModels.tblAddressViewModel>
+
+@{
+    ViewData["Title"] = "AddressBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="u-s-p-b-60">
+    <div class="section__content">
+        <div class="dash">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12">
+                        @Html.Partial("MyAccountSideMenu.cshtml", Model[0].UserDetails)
+                    </div>
+                    <div class="col-lg-9 col-md-12">
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                            <div class="dash__pad-2">
+                                <div class="dash__address-header">
+                                    <h1 class="dash__h1">Address Book</h1>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model[0].AddressId == Guid.Empty)
+                        {
+                        }
+                        else
+                        {
+                            <div class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30">
+                                <div class="dash__table-2-wrap gl-scroll">
+                                    <table class="dash__table-2">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Address</th>
+                                                <th>State</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var x in Model)
+                                            {
+                                            <tr>
+                                                <td>
+
+                                                    <div class="pd-detail-inline-2">
+                                                        <div class="u-s-m-b-15">
+                                                            <a class="btn btn--e-transparent-brand-b-2" style="padding:10px; width:70px" href="@Url.Action("AddAddressBook","Account",new { id=x.AddressId})">Edit</a>
+                                                            @*<button type="submit" class="address-book-edit btn--e-transparent-platinum-b-2">Edit</button>*@
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                <td>@(x.Address +", "+x.City)</td>
+                                                <td>@(x.State+", "+x.Country+"-"+x.PinCode)</td>
+                                                <td>
+                                                    @if (x.IsDefault)
+                                                    {
+                                                        <div class="gl-text">Default Shipping Address</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="gl-text">--</div>
+                                                    }
+
+                                                </td>
+                                                <form class="pd-detail__form" method="post">
+                                                <td>
+                                                    <button type="submit" class="far fa-trash-alt table-p__delete-link" asp-action="DeleteAddress" asp-controller="Account" asp-route-id="@x.AddressId"></button>
+                                                </td>
+                                                </form>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        <div>
+                            <a class="dash__custom-link btn--e-brand-b-2" href="@Url.Action("AddAddressBook","Account")">
+                                <i class="fas fa-plus u-s-m-r-8"></i>
+                                <span>Add New Address</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

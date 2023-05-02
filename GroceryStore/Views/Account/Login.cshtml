@@ -1,0 +1,40 @@
+﻿@model tblUsers
+<div class="section__content">
+    <div class="container">
+        <div class="row row--center">
+            <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                <div class="l-f-o">
+                    <div class="l-f-o__pad-box">
+                        <h1 class="gl-h1">NEW CUSTOMER?</h1>
+                        <span class="gl-text u-s-m-b-30">By creating an account with our store, you will be able to move through the checkout process faster, store shipping addresses, view and track your orders in your account and more.</span>
+                        <div class="u-s-m-b-15">
+                            <a class="l-f-o__create-link btn--e-transparent-brand-b-2" href="@Url.Action("SignUp","Account")">CREATE AN ACCOUNT</a>
+                        </div>
+                        <h1 class="gl-h1">SIGN IN</h1>
+                        <span class="gl-text u-s-m-b-30">If you have an account with us, please log in.</span>
+                        <form asp-action="Login" class="l-f-o__form">
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" asp-for="UserName">USERNAME <span style="color:red">*</span></label>
+                                <input type="text" class="form-control input-text input-text--primary-style" asp-for="UserName" placeholder="Enter user name">
+                                <span asp-validation-for="UserName" style="color:red"></span>
+                            </div>
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" asp-for="Password">PASSWORD <span style="color:red">*</span></label>
+                                <input type="password" class="form-control input-text input-text--primary-style" asp-for="Password" placeholder="Password">
+                                <span asp-validation-for="Password" style="color:red"></span>
+                            </div>
+                            <div class="gl-inline">
+                                <div class="u-s-m-b-30">
+                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">LOGIN</button>
+                                </div>
+                                <div class="u-s-m-b-30">
+                                    <a class="gl-link" href="@Url.Action("ForgetPassword","Account")">Forget Password?</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

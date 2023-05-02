@@ -1,0 +1,71 @@
+﻿@model List<tblProducts>
+<div class="container">
+    @if (Model.Count() > 0)
+    {
+<div class="row">
+    <div class="col-9">&nbsp;</div>
+    <div class="col-3"><h6>Total number of products: @Model.Count()</h6></div>
+</div>
+                @foreach (tblProducts x in Model)
+                {
+<div class="row">
+    <div class="col-lg-5">
+        <div class="pd u-s-m-b-30">
+            @if (x.ProductPicture == "" || x.ProductPicture == null)
+            {
+<img id="blah" width="200" height="200" src="~/images/logo/no-image-icon-23485.png" alt="your image" /> }
+else
+{
+<img width="200" height="200" src="~/images/product/@x.ProductPicture">}
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="pd-detail">
+            <div>
+                <span class="pd-detail__name">@x.ProductName</span>
+            </div>
+            @if (x.Discount != 0)
+            {
+<div>
+    <div class="pd-detail__inline">
+        <span class="pd-detail__price">₹@x.DiscountedPrice</span>
+        <span class="pd-detail__discount">(@x.Discount % OFF)</span><del class="pd-detail__del">₹@x.ProductPrice</del>
+    </div>
+</div> }
+else
+{
+<div>
+    <div class="pd-detail__inline">
+        <span class="pd-detail__price">₹@x.ProductPrice</span>
+    </div>
+</div>}
+            <div class="u-s-m-b-15">
+                <span class="pd-detail__preview-desc">@x.Description</span>
+            </div>
+            <div class="u-s-m-b-15">
+                <form class="pd-detail__form" asp-action="AddProduct" asp-route-id="@x.ProductId" method="get">
+                    <div class="pd-detail-inline-2">
+                        <div class="u-s-m-b-15">
+                            <button type="submit" class="btn btn--e-brand-b-2">Edit</button>
+                        </div>
+                    </div>
+                </form>
+                <form class="pd-detail__form" asp-action="DeleteProduct" asp-route-id="@x.ProductId" method="post">
+                    <div class="pd-detail-inline-2">
+                        <div class="u-s-m-b-15">
+                            @*<button class="btn btn--e-brand-b-2" asp-action="EditProduct" asp-route-id="@x.ProductId">Edit</button>*@
+                            <button type="submit" class="btn btn--e-brand-b-2" style="background-color:black;color:white">Delete</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>} }
+            else
+            {
+<div><h2>No product to display</h2></div>}
+</div>
+

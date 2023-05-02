@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/images/favicon.png" rel="shortcut icon">
+    <title>Ludus - Grocery, Apparel, Computers, Books, DVDs & more</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/vendor.css">
+    <link rel="stylesheet" href="~/css/utility.css">
+    <link rel="stylesheet" href="~/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="secondary-nav-wrapper">
+            <div class="container">
+                <div class="secondary-nav">
+                    <div class="menu-init" id="navigation1">
+                        <button class="btn btn--icon toggle-mega-text toggle-button" type="button">G</button>
+                        <div class="ah-lg-mode">
+                            <span class="ah-close">✕ Close</span>
+                            <ul class="ah-list">
+                                <li class="has-dropdown">
+                                    <span class="mega-text">Grocery Store</span>
+                                    <span class="js-menu-toggle"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="navigation2" class="menu-init" style="text-align:center">
+                        @if (@Context.Request.Cookies["ROLE"] != null)@*When user is logged-in*@
+                        {
+                        <span style="color:brown">Hello! @Context.Request.Cookies["FirstName"]&nbsp;@Context.Request.Cookies["LastName"] @*<i class="fas fa-hand-point-left"></i> &nbsp;(It's your UserName)*@</span>
+                        }
+                    </div>
+                    <div class="menu-init" id="navigation3">
+                        <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
+                        <span class="total-item-round">2</span>
+                        <div class="ah-lg-mode">
+                            <span class="ah-close">✕ Close</span>
+                            <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+                                <li>
+                                    <a href="@Url.Action("Index","Home")" data-tooltip="tooltip" data-placement="left" title="Home"><i class="fas fa-home u-c-brand"></i></a>
+                                </li>
+                                @if (@Context.Request.Cookies["ROLE"] == "ADMIN")
+                                {
+                                    <li class="has-dropdown" data-tooltip="tooltip" data-placement="left" title="Products">
+                                        <a><i class="fas fa-plus-circle"></i></a>
+                                        <span class="js-menu-toggle"></span>
+                                        <ul style="width:140px">
+                                            <li>
+                                                <a href="@Url.Action("ProductsList","Product")">
+                                                    <i class="fas fa-eye u-s-m-r-6"></i>
+                                                    <span>Products List</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddProduct","Product",new { id= "" })">
+                                                    <i class="fas fa-plus-circle u-s-m-r-6"></i>
+                                                    <span>Add Product</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (@Context.Request.Cookies["ROLE"] != null)@*When user is logged-in*@
+                                {
+                                    if (@Context.Request.Cookies["ROLE"] != "ADMIN")
+                                    {
+                                        <li class="has-dropdown" id="dynamicContentContainer">
+                                        </li>
+                                    }
+                                }
+                                <li class="has-dropdown" data-tooltip="tooltip" data-placement="left" title="Account">
+                                    <a><i class="far fa-user-circle"></i></a>
+                                    <span class="js-menu-toggle"></span>
+                                    <ul style="width:120px">
+                                        @if (@Context.Request.Cookies["ROLE"] != null)@*When user is logged-in*@
+                                        {
+                                            if (@Context.Request.Cookies["ROLE"] != "ADMIN")
+                                            {
+                                                <li>
+                                                    <a href="@Url.Action("MyAccount", "Account")">
+                                                        <i class="fas fa-user-circle u-s-m-r-6"></i>
+                                                        <span>My Account</span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        @if (@Context.Request.Cookies["ROLE"] == null)@*When user is not logged-in*@
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("SignUp", "Account")">
+                                                    <i class="fas fa-user-plus u-s-m-r-6"></i>
+                                                    <span>Sign Up</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Login", "Account")">
+                                                    <i class="fas fa-lock u-s-m-r-6"></i>
+                                                    <span>Sign In</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (@Context.Request.Cookies["ROLE"] != null)@*When user is logged-in*@
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Logout", "Account")">
+                                                    <i class="fas fa-lock-open u-s-m-r-6"></i>
+                                                    <span>Sign Out</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+    <footer>
+        <div class="outer-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="outer-footer__content u-s-m-b-40">
+                            <span class="outer-footer__content-title">Contact Us</span>
+                            <div class="outer-footer__text-wrap">
+                                <i class="fas fa-home"></i>
+                                <span>42XX AsXXXXX DrXXX ViXXXXXX PXX-2XXXX IXX</span>
+                            </div>
+                            <div class="outer-footer__text-wrap">
+                                <i class="fas fa-phone-volume"></i>
+                                <span>(+91) 90X XXX XXX</span>
+                            </div>
+                            <div class="outer-footer__text-wrap">
+                                <i class="far fa-envelope"></i>
+                                <span>contact@XXXXX.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="outer-footer__content u-s-m-b-40">
+                                    <span class="outer-footer__content-title">Information</span>
+                                    <div class="outer-footer__list-wrap">
+                                        <ul>
+                                            <li>
+                                                <a href="@Url.Action("Checkout", "Cart")">Cart</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("MyAccount", "Account")">Account</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("TrackOrder", "Account")">Track your Order</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddressBook", "Account")">Address Book</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="outer-footer__content u-s-m-b-40">
+                                    <div class="outer-footer__list-wrap">
+                                        <span class="outer-footer__content-title">Our Company</span>
+                                        <ul>
+                                            <li>
+                                                <a href="@Url.Action("AboutUs", "Home")">About us</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("ContactUs", "Home")">Contact Us</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lower-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="lower-footer__content">
+                            <div class="lower-footer__copyright">
+                                <span>Copyright © 2021</span>
+                                <a href="@Url.Action("Index","Home")">Grocery Shop</a>
+                                <span>All Right Reserved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+    $.get('@Url.Action("MiniCart", "Cart")', function(content){
+            $("#dynamicContentContainer").html(content);
+        });
+    </script>
+    @await Html.PartialAsync("_notificationPartial")
+</body>
+</html>

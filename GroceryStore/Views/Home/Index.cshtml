@@ -1,0 +1,159 @@
+﻿@model List<tblProducts>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="app-content">
+    <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-grey">
+        <div class="owl-carousel primary-style-1" id="hero-slider">
+            <div class="hero-slide hero-slide--3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            @if (Context.Request.Cookies["ROLE"] != "ADMIN")
+                            {
+                                <div class="slider-content slider-content--animation">
+                                    <span class="content-span-2 u-c-secondary">10% Off for Prime Member</span>
+                                    <a class="shop-now-link btn--e-brand" href="@Url.Action("Products", "Home")">SHOP NOW</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Context.Request.Cookies["ROLE"] != "ADMIN")
+    {
+        <div class="u-s-p-y-60">
+            <div class="section__intro u-s-m-b-46">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section__text-wrap">
+                                <h1 class="section__heading u-c-secondary u-s-m-b-12">SHOP BY DEALS</h1>
+                                <span class="section__span u-c-silver">
+                                    EXTRA DISCOUNT (10%) FOR OUR PRIME MEMBERS
+                                    @if (Context.Request.Cookies["IsPrimeMember"] != null)
+                                    {
+                                        <a id="checkA" data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top">Check availability</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="checkA" asp-controller="Account" asp-action="Login">Check availability</a>
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section__content">
+                <div class="container">
+                    <div class="row">
+                        @{
+                            int count = 0;
+                            foreach (var x in Model)
+                            {
+                                if (x.ExtraDiscount)
+                                {
+                                    if (count < 4)
+                                    {
+                                        @if (Context.Request.Cookies["IsPrimeMember"] == null)
+                                        {
+                                            <div class="col-lg-3 col-md-3 u-s-m-b-30">
+                                                <a class="collection" asp-controller="Account" asp-action="Login">
+                                                    <div class="aspect aspect--bg-grey aspect--square">
+                                                        <img class="aspect__img collection__img" src="~/images/product/@x.ProductPicture" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (Context.Request.Cookies["IsPrimeMember"].ToUpper() == "TRUE")
+                                        {
+                                            <div class="col-lg-3 col-md-3 u-s-m-b-30">
+                                                <a class="collection" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@x.ProductId" asp-route-num="1" asp-route-isPrime="@Context.Request.Cookies["IsPrimeMember"]">
+                                                    <div class="aspect aspect--bg-grey aspect--square">
+                                                        <img class="aspect__img collection__img" src="~/images/product/@x.ProductPicture" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (Context.Request.Cookies["IsPrimeMember"].ToUpper() == "FALSE")
+                                        {
+                                            <div class="col-lg-3 col-md-3 u-s-m-b-30">
+                                                <a class="collection" data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top">
+                                                    <div class="aspect aspect--bg-grey aspect--square">
+                                                        <img class="aspect__img collection__img" src="~/images/product/@x.ProductPicture" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                    count++;
+                                }
+                            }
+                        }
+
+
+
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="add-to-cart">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-radius modal-shadow">
+                    <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                @if (Context.Request.Cookies["IsPrimeMember"] != null)
+                                {
+                                    if (Context.Request.Cookies["IsPrimeMember"].ToUpper() == "TRUE")
+                                    {
+                                        <h6>Congratulations! You are our PRIME MEMBER.<br /> Enjoy the flat 10 % on selected products</h6>
+                                    }
+                                    else if (Context.Request.Cookies["IsPrimeMember"].ToUpper() == "FALSE")
+                                    {
+                                        <h6>Oops! You are not our PRIME MEMBER<br />Order more to be a PRIME MEMBER</h6>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @Html.Partial("Products.cshtml", Model)
+    }
+</div>
+
+
+
+<script>
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+<script src="~/js/vendor.js"></script>
+<script src="~/js/jquery.shopnav.js"></script>
+<script src="~/js/app.js"></script>
+<style>
+    #checkA {
+        color: #ff4500;
+    }
+
+        #checkA:hover {
+            color: black;
+        }
+</style>

@@ -1,0 +1,79 @@
+﻿@model List<GroceryStore.ViewModels.tblOrderHistoryViewModel>
+<div class="u-s-p-b-60">
+    <div class="section__content">
+        <div class="dash">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12">
+                        @Html.Partial("MyAccountSideMenu.cshtml", Model[0].UserDetails)
+                    </div>
+                    @if (Model.Count() > 0 && Model[0].OrderId != Guid.Empty)
+                    {
+
+        <div class="col-lg-9 col-md-12">
+            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                <div class="dash__pad-2">
+                    <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
+                    <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
+                    @foreach (var x in Model)
+                    {
+    <div class="m-order__list" style="margin: 10px;">
+        <div class="m-order__get">
+            <div class="manage-o__header u-s-m-b-30">
+                <div class="dash-l-r">
+                    <div>
+                        <div class="manage-o__text-2 u-c-secondary">Order #@x.OrderNumber</div>
+                        <div class="manage-o__text u-c-silver">Placed on @x.OrderDate</div>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <div class="dash__link dash__link--brand">
+                            <span class="manage-o__badge badge--processing" style="width:8.9375rem">@x.OrderStatus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in x.OrderHistory)
+            {
+<div class="manage-o__description">
+    <div class="description__container">
+        <div class="description__img-wrap">
+            @if (item.ProductPicture == "" || item.ProductPicture == null)
+            {
+<img id="blah" class="u-img-fluid" src="~/images/logo/no-image-icon-23485.png" alt="your image" />}
+else
+{
+<img class="u-img-fluid" src="~/images/product/@item.ProductPicture" alt="">}
+        </div>
+        <div class="description-title">@item.ProductName</div>
+    </div>
+    <div class="description__info-wrap">
+        <div>
+            <span class="manage-o__text-2 u-c-silver">
+                Quantity:
+                <span class="manage-o__text-2 u-c-secondary">@item.NoOfProducts</span>
+            </span>
+        </div>
+    </div>
+</div>}
+            <div style="float:right">
+                <span class="manage-o__text-2" style="color: green">
+                    Total:
+                    <span class="manage-o__text-2" style="color: green">₹@x.GrandTotal</span>
+                </span>
+            </div>
+        </div>
+    </div>}
+                </div>
+            </div>
+        </div> }
+    else
+    {
+<div style="text-align:center"><h2>You haven't ordered anything yet !!!'</h2></div>}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
